@@ -1,130 +1,118 @@
-const express = require ('express')
-const mongoose = require ('mongoose')
-const bcrypt = require('bcryptjs')
+const users = require('../Data-base/Models/user')
+const bcrypt = require ('bcryptjs')
 
-
-exports.signUp = async function (req,res) {
+exports.singUp = async function (req, res) {
     try {
-        console.log(req.header);
         let body = req.body;
-        console.log("Body :" ,body);
-        let name = body.name ;
-        if(!name){
-              let response = error_function({
-                success : false ,
-                statuscode : 400,
-                message : "please enter your name"
-            });
-            res.status(response.statusCode).send(response)
-            return;
+        let name = body.name;
+        let email = req.email;
+        let password = req.password;
+        if (!name) {
+            return res.status(400).send({
+                message: "Name required",
+                success: false
+            })
         }
-        let email = body.email;
-        console.log("Email :",email);
-        if(!email){
-            let response = error_function({
-                success : false ,
-                statuscode : 400,
-                message : "please enter your Email"
-            });
-            res.status(response.statusCode).send(response)
-            return;
+        if (!name) {
+            return res.status(400).send({
+                message: "Email required",
+                success: false
+            })
         }
-        let checkEmailexistancy = await users.findOne({email});
-        if(!checkEmailexistancy){
-             let response = error_function({
-                success : false ,
-                statuscode : 400,
-                message : "This email is already exist. please login to continue"
-            });
-            res.status(response.statusCode).send(response)
-            return;
+         if (!password) {
+            return res.status(400).send({
+                message : "Password required",
+                success : false
+            })
         }
-        let password = body.password ; 
-        if(!password){
-                 let response = error_function({
-                success : false ,
-                statuscode : 400,
-                message : "please enter your password"
-            });
-            res.status(response.statusCode).send(response)
-            return;
+        let mailcheck = await users.findOne({email: email})
+        if (mailcheck){
+             
+            return res.status(400).send({
+                message : "Email already exist",
+                success : false
+            })
         }
-        var salt = bcrypt.genSaltSync(10)
-        var hash = bcrypt.hashSync(password , salt)
-        body.password = hash ; 
+        let salt = bcrypt.genSaltSync(10)
+        let hashedPassword = bcrypt.hashSync(password , salt)
+
+        let userType = "buyer"
+
+        let data ={
+            name : name,
+            email : email,
+            password : hashedPassword,
+            user_type : userType
+        }
+        let userData = await users.create(data)
+
+        return res.status(200).send({
+            message : "Account created successfully",
+            success:true
+        })
     } catch (error) {
-        console.log("error : ",error);
-         let response = error_function({
-                success : false ,
-                statuscode : 400,
-                message : error.message ? error.message : error
-            });
-            res.status(response.statusCode).send(response)
-            return;
-        
-    }    
+        console.log(error);
+        res.status(400).send({
+            message: error.message || error,
+            success: false
+        })
+
+    }
+
 }
+
 exports.login = async function (req,res) {
     try {
         let body = req.body;
-        let email = req.email;
-        let password = req.password
-         if(!email){
-            let response = error_function({
-                success : false ,
-                statuscode : 400,
-                message : "please enter your Email"
-            });
-            res.status(response.statusCode).send(response)
-            return;
+        let name = body.name;
+        let email = body.email;
+        let password = body.password;
+
+             if (!name) {
+            return res.status(400).send({
+                message: "Name required",
+                success: false
+            })
         }
-          if(!password){
-            let response = error_function({
-                success : false ,
-                statuscode : 400,
-                message : "please enter your password"
-            });
-            res.status(response.statusCode).send(response)
-            return;
+        if (!name) {
+            return res.status(400).send({
+                message: "Email required",
+                success: false
+            })
+        }
+         if (!password) {
+            return res.status(400).send({
+                message : "Password required",
+                success : false
+            })
+        }
+        let matchEmail = await users.findOne({email : email})
+        if(!matchEmail){
+            return res.status(400).send({
+                message: "Invalid Email"
+            })
         }
 
-        const user = await User.findOne({email : email})
-        if(!user){
-            let response = error_function({
-                success:false,
-                statuscode: 400,
-                message: "Invalid email or password"
-            });
-            res.status(response.statusCode).send(response)
-            return;
+        let matchPassword = await bcrypt.compareSync(password ,users.password)
+        if(!matchPassword)
+        {
+            return res.status(400).send({
+                message: "Incorrect password",
+                success:false
+            })
         }
-
-        const match = await bcrypt.compareSync(password , user.password);
-        if(!match){
-            let response = error_function({
-                success:false,
-                statuscode: 400,
-                message: "Invalid email or password"
-            });
-            res.status(response.statusCode).send(response)
-            return;
-        }
-        else{
-            let response = success_function(
-                {
-                    success:true,
-                    statusCode:404,
-                    message:"Login successfull"
-                }
-            );
-            res.status(response.statusCode).send(response)
-            return;
-        }
-
-
+        
+        return res.status(200).send({
+            message : "Login successfull",
+            success:true
+        })
         
     } catch (error) {
+        console.log(error);
+        return res.status(400).send({
+            message: error.message || error,
+            success:false
+        })
         
     }
-    
 }
