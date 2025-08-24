@@ -5,15 +5,15 @@ exports.singUp = async function (req, res) {
     try {
         let body = req.body;
         let name = body.name;
-        let email = req.email;
-        let password = req.password;
+        let email = body.email;
+        let password = body.password;
         if (!name) {
             return res.status(400).send({
                 message: "Name required",
                 success: false
             })
         }
-        if (!name) {
+        if (!email) {
             return res.status(400).send({
                 message: "Email required",
                 success: false
@@ -35,6 +35,8 @@ exports.singUp = async function (req, res) {
         }
         let salt = bcrypt.genSaltSync(10)
         let hashedPassword = bcrypt.hashSync(password , salt)
+  
+        
 
         let userType = "buyer"
 
@@ -64,17 +66,13 @@ exports.singUp = async function (req, res) {
 exports.login = async function (req,res) {
     try {
         let body = req.body;
-        let name = body.name;
         let email = body.email;
         let password = body.password;
+        console.log("password :" , password);
+        
 
-             if (!name) {
-            return res.status(400).send({
-                message: "Name required",
-                success: false
-            })
-        }
-        if (!name) {
+      
+        if (!email) {
             return res.status(400).send({
                 message: "Email required",
                 success: false
@@ -92,8 +90,10 @@ exports.login = async function (req,res) {
                 message: "Invalid Email"
             })
         }
+        console.log(users.password);
+        
 
-        let matchPassword = await bcrypt.compareSync(password ,users.password)
+        let matchPassword = await bcrypt.compare(password, matchEmail.password);
         if(!matchPassword)
         {
             return res.status(400).send({
