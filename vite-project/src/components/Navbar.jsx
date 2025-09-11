@@ -64,28 +64,25 @@ function  Navbar() {
 
       {/* Mobile Menu Dropdown */}
       {menuOpen && (
-        <div className="absolute top-16 left-0 w-full bg-white shadow-md border-t border-gray-200 md:hidden">
+        <div className="absolute top-16 left-0 w-full bg-white shadow-md border-t border-gray-200 md:hidden p-4">
           <ul className="flex flex-col gap-4 p-6 text-black font-semibold">
             <li className="cursor-pointer hover:text-blue-600 transition">Home</li>
             <li className="cursor-pointer hover:text-blue-600 transition">About Us</li>
 
             {/* Search inside mobile menu */}
-            <div className="relative w-full">
+          
+
+            <li className="cursor-pointer hover:text-blue-600 transition">Products</li>
+            <li className="cursor-pointer hover:text-blue-600 transition">Contact</li>
+              <div className="relative w-full">
               <input
                 type="text"
                 placeholder="Search..."
                 className="w-full pl-10 pr-4 py-2 rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 shadow-sm transition"
               />
-              <Search
-                className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500"
-                size={16}
-              />
+            
             </div>
-
-            <li className="cursor-pointer hover:text-blue-600 transition">Products</li>
-            <li className="cursor-pointer hover:text-blue-600 transition">Contact</li>
-            <li className="cursor-pointer hover:text-blue-600 transition">Login</li>
-            <li className="cursor-pointer hover:text-blue-600 transition">Signup</li>
+           
           </ul>
         </div>
       )}
