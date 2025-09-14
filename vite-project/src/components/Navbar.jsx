@@ -1,19 +1,23 @@
 import React from "react";
-import { Search, User, Menu, X } from "lucide-react";
+import { User, Menu, X } from "lucide-react";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 
 function  Navbar() {
     const [menuOpen, setMenuOpen] = useState(false);
+    const [open, setOpen] = useState(false);
+    const navigate = useNavigate()
+  
     return(
         <>
-  <div className="flex justify-between items-center h-16 px-6 bg-gray-100 shadow-md">
+  <div className="flex justify-between items-center h-16 px-6 bg-yellow-200 shadow-md">
       {/* Left - Logo */}
       <div className="text-black font-black text-xl">:)</div>
 
       {/* Desktop Menu */}
       <ul className="hidden md:flex items-center gap-6 text-black font-bold">
-        <li className="cursor-pointer hover:text-blue-600 transition">Home</li>
+        <li className="cursor-pointer hover:text-blue-600 transition" onClick={()=>navigate('/')}>Home</li>
         <li className="cursor-pointer hover:text-blue-600 transition">About Us</li>
 
         {/* Search Box */}
@@ -33,26 +37,37 @@ function  Navbar() {
       </ul>
 
       {/* Right - Profile Icon */}
-      <div className="relative group hidden md:block">
-        <div className="flex items-center gap-2 cursor-pointer">
-          <User className="text-gray-700 group-hover:text-blue-600 transition" size={26} />
-          <span className="font-medium text-gray-700 group-hover:text-blue-600 hidden lg:block">
-            Profile
-          </span>
-        </div>
+   <div className="relative hidden md:block">
+      <div
+        className="flex items-center gap-2 cursor-pointer"
+        onClick={() => setOpen(!open)}
+      >
+        <User className="text-gray-700 hover:text-blue-600 transition" size={26} />
+        <span className="font-medium text-gray-700 hover:text-blue-600 hidden lg:block">
+          Profile
+        </span>
+      </div>
 
-        {/* Dropdown */}
-        <div className="absolute right-0 mt-3 w-40 bg-white shadow-lg rounded-xl border border-gray-100 hidden group-hover:block animate-fadeIn">
+      {open && (
+        <div className="absolute right-0 mt-3 w-40 bg-white shadow-lg rounded-xl border border-gray-100 animate-fadeIn z-50">
           <ul className="flex flex-col py-2">
-            <li className="px-4 py-2 hover:bg-blue-50 hover:text-blue-600 cursor-pointer rounded-t-xl transition">
+            <li
+              className="px-4 py-2 hover:bg-blue-50 hover:text-blue-600 cursor-pointer rounded-t-xl transition"
+              onClick={() => navigate("/login")}
+            >
               Login
             </li>
-            <li className="px-4 py-2 hover:bg-blue-50 hover:text-blue-600 cursor-pointer rounded-b-xl transition">
+            <li
+              className="px-4 py-2 hover:bg-blue-50 hover:text-blue-600 cursor-pointer rounded-b-xl transition"
+              onClick={() => navigate("/signup")}
+            >
               Signup
             </li>
           </ul>
         </div>
-      </div>
+      )}
+    </div>
+
 
       {/* Mobile Hamburger */}
       <button
