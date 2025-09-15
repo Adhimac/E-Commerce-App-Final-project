@@ -3,28 +3,35 @@ import { data, Link, useNavigate } from "react-router-dom";
 import { User, Mail, Lock } from "lucide-react";
 
 const CreateAccount = () => {
-  const navigate = useNavigate()
   const [name, setName] = useState('')
   const [email , setEmail] = useState('')
   const [password , setPassword] = useState('')
 
-const handleSubmit = (e) => {
-  e.preventDefault()
+const handleSubmit = async (e) => {
+  e.preventDefault();
+
   const data = {
-    name: name,
-    email: email,
-    password: password
+    name,
+    email,
+    password,
   };
 
-  console.log('Submitted data:', data);
+  try {
+    const response = await fetch("http://localhost:4000/signup", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data), // send data to backend
+    });
+
+    const result = await response.json();
+    console.log("Server response:", result);
+  } catch (error) {
+    console.error("Error:", error);
+  }
 };
 
-
-
-
-
-  
-  
   return (
     <div
       className="relative flex justify-center items-center min-h-screen bg-cover bg-center px-4"
