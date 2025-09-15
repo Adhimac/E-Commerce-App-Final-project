@@ -1,9 +1,30 @@
-import React from "react";
-import { Link, useNavigate } from "react-router-dom";
+import React, { useState } from "react";
+import { data, Link, useNavigate } from "react-router-dom";
 import { User, Mail, Lock } from "lucide-react";
 
 const CreateAccount = () => {
   const navigate = useNavigate()
+  const [name, setName] = useState('')
+  const [email , setEmail] = useState('')
+  const [password , setPassword] = useState('')
+
+const handleSubmit = (e) => {
+  e.preventDefault()
+  const data = {
+    name: name,
+    email: email,
+    password: password
+  };
+
+  console.log('Submitted data:', data);
+};
+
+
+
+
+
+  
+  
   return (
     <div
       className="relative flex justify-center items-center min-h-screen bg-cover bg-center px-4"
@@ -25,14 +46,17 @@ const CreateAccount = () => {
         </p>
 
         {/* Form */}
-        <form className="space-y-4">
+        <form onSubmit={handleSubmit} className="space-y-4">
           {/* Name */}
           <div className="flex items-center border border-white/40 rounded-xl px-3 bg-white/10">
             <User className="text-gray-200" size={20} />
             <input
               type="text"
+              value={name}
               placeholder="Name"
               className="w-full px-3 py-3 bg-transparent text-white placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-transparent rounded-xl"
+              onChange={e => setName(e.target.value)
+              }
             />
           </div>
 
@@ -41,8 +65,10 @@ const CreateAccount = () => {
             <Mail className="text-gray-200" size={20} />
             <input
               type="email"
+              value={email}
               placeholder="Email"
               className="w-full px-3 py-3 bg-transparent text-white placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-transparent rounded-xl"
+              onChange={e=>setEmail(e.target.value)}
             />
           </div>
 
@@ -51,8 +77,10 @@ const CreateAccount = () => {
             <Lock className="text-gray-200" size={20} />
             <input
               type="password"
+              value={password}
               placeholder="Password"
               className="w-full px-3 py-3 bg-transparent text-white placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-transparent rounded-xl"
+              onChange={e=>setPassword(e.target.value)}
             />
           </div>
 
