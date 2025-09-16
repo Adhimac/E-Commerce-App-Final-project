@@ -108,12 +108,11 @@ function Login() {
 
         </form>
 
-        {/* Extra Links */}
+       
         <p className="text-center text-sm text-gray-200 mt-6">
           Forgot Password?{" "}
-          <a href="#" className="text-yellow-300 font-semibold hover:underline">
-            Reset
-          </a>
+          <Link to="/reset"  className="text-yellow-300 font-semibold hover:underline">Reset</Link>
+         
         </p>
       </div>
     </div>
