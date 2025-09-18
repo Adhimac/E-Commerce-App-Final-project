@@ -4,8 +4,8 @@ const ResetPassword = () => {
   const [email, setEmail] = useState("");
   const [otp, setOtp] = useState("");
   const [isOtpSent, setIsOtpSent] = useState(false); // track email verification status
-  const [message, setMessage] = useState(""); // success/error messages
-
+  const [otpVerified, setOtpVerified] = useState(false) // track otp verification status 
+ const [message, setMessage] = useState(""); // success/error messages
   // Step 1: Send email to get OTP
   const handleEmailSubmit = async (e) => {
     e.preventDefault();
@@ -58,6 +58,7 @@ const ResetPassword = () => {
 
       if (response.ok) {
         setMessage("OTP verified successfully 🎉");
+        setOtpVerified(true)
         // here you can redirect user to reset password page
       } else {
         setMessage(result.message || "Invalid OTP ❌");
@@ -83,7 +84,7 @@ const ResetPassword = () => {
           <p className="text-center text-sm mb-4 text-yellow-300">{message}</p>
         )}
 
-        {/* Email Form */}
+      
         {!isOtpSent ? (
           <form className="space-y-5" onSubmit={handleEmailSubmit}>
             <input
@@ -132,6 +133,8 @@ const ResetPassword = () => {
             </button>
           </form>
         )}
+        
+        
       </div>
     </div>
   );
