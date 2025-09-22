@@ -3,6 +3,7 @@ import { data, Link, useNavigate } from "react-router-dom";
 import { User, Mail, Lock } from "lucide-react";
 
 const CreateAccount = () => {
+  const navigate = useNavigate()
   const [name, setName] = useState('')
   const [email , setEmail] = useState('')
   const [password , setPassword] = useState('')
@@ -26,6 +27,9 @@ const handleSubmit = async (e) => {
     });
 
     const result = await response.json();
+    if(response.ok){
+      navigate('/')
+    }
     console.log("Server response:", result);
   } catch (error) {
     console.error("Error:", error);

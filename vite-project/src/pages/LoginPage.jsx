@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import { Mail, Lock } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 
 function Login() {
+ const navigate = useNavigate()
   const [email , setEmail] = useState('')
   const [password , setPassword] = useState('')
 
@@ -26,7 +27,11 @@ function Login() {
 
       })
       const result = await response.json();
-    console.log("Server response:", result);
+      if(response.ok){
+        localStorage.setItem("token", result.data); 
+        console.log("Token stored:", result.data);
+       navigate('/')
+      }
       
     } catch (error) {
       console.log("Error:" , error);
