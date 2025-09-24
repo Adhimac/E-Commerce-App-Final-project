@@ -1,15 +1,15 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Navbar from "../components/Navbar";
 
+
 function Home() {
+
     return(
-        <>
-        <Navbar/>
         <div>
+            <Navbar/>
             Home
         </div>
-        
-        </>
     )
-} 
-export default Home
+}
+
+export default Home;

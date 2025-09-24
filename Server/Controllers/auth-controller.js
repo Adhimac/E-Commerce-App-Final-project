@@ -43,7 +43,7 @@ exports.singUp = async function (req, res) {
 
 
 
-        let userType = "buyer"
+        let userType = "seller"
 
         let data = {
             name: name,

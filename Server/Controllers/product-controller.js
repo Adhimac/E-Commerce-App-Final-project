@@ -1,6 +1,6 @@
 const products = require('../Data-base/Models/product')
 
-exports.newProduct = async function (req ,res){
+exports.addProduct = async function (req ,res){
 try {
     let name = req.body.name
     if(!name){
