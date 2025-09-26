@@ -1,3 +1,4 @@
+const product = require('../Data-base/Models/product')
 const products = require('../Data-base/Models/product')
 
 exports.addProduct = async function (req ,res){
@@ -59,3 +60,19 @@ try {
     })
 }
 }
+exports.getProduct = async function (req, res) {
+    try {
+        let data = await product.find();
+
+        return res.status(200).send({
+            success: true,
+            message: "Products fetched successfully",
+            data: data
+        });
+    } catch (error) {
+        return res.status(400).send({
+            success: false,
+            message: error.message
+        });
+    }
+};

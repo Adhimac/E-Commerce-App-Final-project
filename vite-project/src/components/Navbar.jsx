@@ -22,7 +22,7 @@ function  Navbar() {
 
         {/* Search Box */}
         
-        <li className="cursor-pointer hover:text-blue-600 transition">Products</li>
+        <li className="cursor-pointer hover:text-blue-600 transition" onClick={()=>navigate('/products')}>Products</li>
         <li className="cursor-pointer hover:text-blue-600 transition">Contact</li>
 
         <div className="relative w-48">

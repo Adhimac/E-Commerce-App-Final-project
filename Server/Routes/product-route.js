@@ -8,5 +8,6 @@ function setAccessController(access_type){
     }
 }
 router.post('/addProduct',setAccessController("1.3"),productController.addProduct)
+router.get('/getProduct',setAccessController("*"),productController.getProduct)
 
 module.exports = router
