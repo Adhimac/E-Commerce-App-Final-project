@@ -5,6 +5,7 @@ import CreateAccount from './pages/CreateAccount'
 import Login from './pages/LoginPage'
 import ResetPasssword from './pages/ResetPasssword'
 import Products from './pages/products'
+import AddProduct from './pages/addProduct'
 
 
 function App() {
@@ -20,6 +21,7 @@ function App() {
       <Route path='/login' element={<Login/>}/>
       <Route path='/reset' element={<ResetPasssword/>}/>
       <Route path='/products' element={<Products/>}/>
+      <Route path='/addProduct' element={<AddProduct/>}/>
      
     </Routes>
    </Router>

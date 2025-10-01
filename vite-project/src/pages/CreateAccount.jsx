@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { data, Link, useNavigate } from "react-router-dom";
 import { User, Mail, Lock } from "lucide-react";
+import axios from "axios";
 
 const CreateAccount = () => {
   const navigate = useNavigate()
@@ -17,23 +18,20 @@ const handleSubmit = async (e) => {
     password,
   };
 
-  try {
-    const response = await fetch("http://localhost:4000/signup", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data), // send data to backend
-    });
+ try {
+  const response = await axios.post("http://localhost:4000/signup", data, {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
 
-    const result = await response.json();
-    if(response.ok){
-      navigate('/')
-    }
-    console.log("Server response:", result);
-  } catch (error) {
-    console.error("Error:", error);
+  if (response.status === 200) {
+    navigate("/login");
   }
+} catch (error) {
+  console.error("Error:", error);
+}
+
 };
 
   return (
