@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 
 const ResetPassword = () => {
@@ -13,97 +14,52 @@ const ResetPassword = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
 
   // Step 1: Send OTP
-  const handleEmailSubmit = async (e) => {
-    e.preventDefault();
 
-    const data = { email };
+const handleEmailSubmit = async (e) => {
+  e.preventDefault();
+  const data = { email };
 
-    try {
-      const response = await fetch("http://localhost:4000/otp", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      });
+  try {
+    const response = await axios.post("http://localhost:4000/otp", data);
+    console.log("response", response.data);
+    setIsOtpSent(true);
+    setMessage("OTP sent to your email ");
+  } catch (error) {
+    console.log("Error:", error);
+    setMessage(error.response?.data?.message || "Failed to send OTP ");
+  }
+};
 
-      const result = await response.json();
-      console.log("response.ok", result);
+const handleOtpSubmit = async (e) => {
+  e.preventDefault();
+  const data = { email, code: otp };
 
-      if (response.ok) {
-        setIsOtpSent(true);
-        setMessage("OTP sent to your email ✅");
-      } else {
-        setMessage(result.message || "Failed to send OTP ❌");
-      }
-    } catch (error) {
-      console.log("Error:", error);
-      setMessage("Something went wrong ❌");
-    }
-  };
+  try {
+    const response = await axios.post(`http://localhost:4000/code/${email}`, data);
+    console.log("OTP Check:", response.data);
+    setMessage("OTP verified successfully 🎉");
+    setOtpVerified(true);
+  } catch (error) {
+    console.log("Error:", error);
+    setMessage(error.response?.data?.message || "Invalid OTP ");
+  }
+};
 
-  // Step 2: Verify OTP
-  const handleOtpSubmit = async (e) => {
-    e.preventDefault();
+const handlePasswordReset = async (e) => {
+  e.preventDefault();
+  const data = { email, newPassword, confirmPassword };
 
-    const data = { email, code: otp };
+  try {
+    const response = await axios.post(`http://localhost:4000/password/${email}`, data);
+    console.log("Password Reset:", response.data);
+    setMessage("Password reset successful 🎉");
+    navigate("/login");
+  } catch (error) {
+    console.log("Error:", error);
+    setMessage(error.response?.data?.message || "Failed to reset password ❌");
+  }
+};
 
-    try {
-      const response = await fetch(`http://localhost:4000/code/${email}`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      });
-
-      const result = await response.json();
-
-      if (response.ok) {
-        setMessage("OTP verified successfully 🎉");
-        setOtpVerified(true);
-      } else {
-        setMessage(result.message || "Invalid OTP ❌");
-      }
-
-      console.log("OTP Check:", result);
-    } catch (error) {
-      console.log("Error:", error);
-      setMessage("Something went wrong ❌");
-    }
-  };
-
-  // Step 3: Reset Password
-  const handlePasswordReset = async (e) => {
-    e.preventDefault();
-
-    const data = { email, newPassword,confirmPassword};
-
-    try {
-      const response = await fetch(`http://localhost:4000/password/${email}`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      });
-
-      const result = await response.json();
-
-      if (response.ok) {
-        setMessage("Password reset successful 🎉");
-        navigate("/login"); // redirect to login page
-
-      } else {
-        setMessage(result.message || "Failed to reset password ❌");
-      }
-
-      console.log("Password Reset:", result);
-    } catch (error) {
-      console.log("Error:", error);
-      setMessage("Something went wrong ❌");
-    }
-  };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-red-900 via-gray-800 to-blue-400 p-6">

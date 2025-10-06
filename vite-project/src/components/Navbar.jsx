@@ -17,12 +17,12 @@ function Navbar() {
 
   return (
     <>
-      <div className="flex justify-between items-center h-16 px-6 bg-yellow-200 shadow-md">
+      <div className="flex justify-between items-center h-16 px-6 bg-indigo-600 shadow-md">
         {/* Logo */}
-        <div className="text-black font-black text-xl">:)</div>
+        <div className="text-white font-black text-xl">:)</div>
 
         {/* Desktop Menu */}
-        <ul className="hidden md:flex items-center gap-6 text-black font-bold">
+        <ul className="hidden md:flex items-center gap-6 text-white font-bold">
           <li className="cursor-pointer hover:text-blue-600" onClick={() => navigate("/")}>Home</li>
           <li className="cursor-pointer hover:text-blue-600">About Us</li>
           <li className="cursor-pointer hover:text-blue-600" onClick={() => navigate("/products")}>Products</li>
@@ -45,8 +45,8 @@ function Navbar() {
             className="flex items-center gap-2 cursor-pointer"
             onClick={() => setOpen(!open)}
           >
-            <User className="text-gray-700 hover:text-blue-600" size={26} />
-            <span className="font-medium text-gray-700 hover:text-blue-600 hidden lg:block">
+            <User className="text-white hover:text-blue-600" size={26} />
+            <span className="font-medium text-white hover:text-blue-600 hidden lg:block">
               Profile
             </span>
           </div>

@@ -60,3 +60,24 @@ exports.getProduct = async function (req, res) {
         });
     }
 };
+exports.getSingleProduct = async function (req,res) {
+  try {
+    const id = req.params.id
+    console.log(id);
+    
+    let data = await product.findById(id)
+    console.log(data);
+    
+      return res.status(200).send({
+            success: true,
+            message: "Product fetched successfully",
+            data: data
+        });
+  } catch (error) {
+       return res.status(400).send({
+            success: false,
+            message: error.message
+        });
+  }
+  
+}

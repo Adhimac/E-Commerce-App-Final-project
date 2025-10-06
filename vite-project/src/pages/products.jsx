@@ -33,17 +33,19 @@ const Products = () => {
         {products.length === 0 ? (
           <p className="text-center text-gray-500">No products available</p>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8" >
             {products.map((p) => (
               <div
                 key={p._id}
                 className="bg-white rounded-2xl shadow-md hover:shadow-lg transition-transform transform hover:-translate-y-1"
+                onClick={()=>navigate(`/singleProduct/${p._id}`)}
               >
                 <div className="h-48 bg-gray-100 rounded-t-2xl flex items-center justify-center">
                   <img
                     src="https://cdn.mos.cms.futurecdn.net/FUi2wwNdyFSwShZZ7LaqWf.jpg"
                     alt={p.name}
                     className="h-full object-cover rounded-t-2xl"
+                    
                   />
                 </div>
                 <div className="p-5">
